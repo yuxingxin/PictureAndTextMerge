@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<meta charset="utf-8" />
+<script src="canvas2image.js"></script>
+<style>
+    .doc {
+       margin-left: 200px;
+    }
+    canvas {
+        display: block;
+        border: 1px solid #888;
+    }
+</style>
+<body>
+<div class="doc">
+
+    <table>
+        <tr>
+            <td><canvas width="484" height="860" id="canvas" ></canvas></td>
+            <td><div>
+                <p>
+                    <br/>
+                    图片宽度: <input type="number" value="484" id="imgWidth" /><br/>
+                    图片高度 : <input type="number" value="860" id="imgHeight" /><br/>
+                    昵称 : <input type="text" value="yuxingxin" id="nickname" /><br/>
+                    <button id="save">保存</button> <button id="preview">预览</button>
+                    <select id="selValue">
+                        <option value="png">png</option>
+                        <option value="jpeg">jpeg</option>
+                        <option value="bmp">bmp</option>
+                    </select>
+                </p>
+            </div></td>
+        </tr>
+    </table>
+
+
+
+</div>
+<script>
+    var canvas, ctx,
+        $save,$nickname,$selVaule,
+        $preview, $imgWidth, $imgHeight,
+        $selValue;
+    function init () {
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        $save = document.getElementById('save');
+        $preview = document.getElementById('preview');
+        $selValue = document.getElementById('sel');
+        $imgWidth = document.getElementById('imgWidth');
+        $imgHeight = document.getElementById('imgHeight');
+        $nickname = document.getElementById('nickname');
+        $selVaule = document.getElementById('selValue');
+        bind();
+        draw();
+    }
+    function bind () {
+        $save.onclick = function (e) {
+            var type = $selVaule.value,
+                    w = $imgWidth.value,
+                h = $imgHeight.value;
+            Canvas2Image.saveAsImage(canvas, w, h, type);
+        }
+        $preview.onclick = function (e) {
+            ctx.font="100px 黑体";
+            ctx.fillStyle="#ffffff";
+            ctx.fillText($nickname.value,100,325);
+        }
+
+    }
+    function draw () {
+        var img = new Image();
+        img.onload = function(){
+            ctx.scale(0.45,0.45);
+            ctx.drawImage(img,0,0);
+        }
+        img.src = "juejin.png"
+    }
+
+    onload = init;
+</script>
+</body>
+</html>
